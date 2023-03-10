@@ -1,0 +1,7 @@
+$flex: false;
+$xy-grid: false;
+$global-flexbox: false;
+
+@import '~foundation-sites/scss/foundation';
+
+@include foundation-everything($flex: false);
