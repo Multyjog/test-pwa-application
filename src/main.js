@@ -6,6 +6,7 @@ import router from './router'
 import store from './store'
 
 import InitHelper from './lib/InitHelper'
+import './registerServiceWorker'
 
 Vue.config.productionTip = false
 

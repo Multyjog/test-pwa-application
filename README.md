@@ -24,3 +24,7 @@ yarn run build
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
 # test-spa-application
+
+# CHANGELOG
+- FIBERS bumped to v.5 to work with last node.
+- PWA package added
