@@ -38,8 +38,8 @@ export default {
       userAgent: null,
     }),
     created() {
-      window.addEventListener('load', (e) => {
-        console.log('DOMLoaded FIRED!')
+      // window.addEventListener('load', (e) => {
+        // console.log(window.matchMedia('(display-mode: standalone)').matches)
         if (navigator.standalone || window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches || window.matchMedia('(display-mode: minimal-ui)').matches) {
            console.log('APP IS IN STANDALONE MODE')
            this.$router.push({ name: 'documents' })
@@ -48,7 +48,7 @@ export default {
           console.log("APPLICATION IS NOT INSTALLED")
           this.applicationInstalled = false
         }
-      });
+      // });
     },
     beforeMount() {
       window.addEventListener('beforeinstallprompt', (e) => {
