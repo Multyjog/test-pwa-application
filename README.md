@@ -4,6 +4,15 @@
 
 To run development:
 - Make sure that you using node version ^14.16
+- Make sure that your publicPath in vue.config.js is:
+```
+  publicPath: "./"
+```
+This public path is used only for deployment purposes
+```
+  // publicPath: process.env.NODE_ENV === "production" ? "/test-pwa-application" : "./",
+```
+After that, use:
 ```
 npm i
 ```
