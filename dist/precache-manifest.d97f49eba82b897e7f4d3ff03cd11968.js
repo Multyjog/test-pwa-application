@@ -1,7 +1,7 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "4fd38708e3fbd9a24b87",
-    "url": "/test-pwa-application/css/app.13079f40.css"
+    "revision": "2d982b5563cbd34eb445",
+    "url": "/test-pwa-application/css/app.7b483164.css"
   },
   {
     "revision": "af756fa13554220e85d2f1ba73ad1cbc",
@@ -16,16 +16,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/test-pwa-application/data/files/document.doc"
   },
   {
-    "revision": "c2acd3c2b696fd075fe796845ec8846b",
+    "revision": "924144ba1ce822ee201f74c3bde90c49",
     "url": "/test-pwa-application/index.html"
   },
   {
-    "revision": "4fd38708e3fbd9a24b87",
-    "url": "/test-pwa-application/js/app.5f492399.js"
+    "revision": "2d982b5563cbd34eb445",
+    "url": "/test-pwa-application/js/app.bb7776b1.js"
   },
   {
-    "revision": "528ca498edbe13f9e34e",
-    "url": "/test-pwa-application/js/chunk-vendors.e930dcfa.js"
+    "revision": "52e303d1c3bc912296cc",
+    "url": "/test-pwa-application/js/chunk-vendors.4a49593c.js"
   },
   {
     "revision": "f0f93dc42347fe2e3d8f3bccf085e1c4",
