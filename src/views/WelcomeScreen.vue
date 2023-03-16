@@ -37,16 +37,20 @@ export default {
       applicationInstalled: true,
       userAgent: null,
     }),
-    beforeMount() {
-      window.addEventListener('DOMContentLoaded', function(){
-         if (navigator.standalone || window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches || window.matchMedia('(display-mode: minimal-ui)').matches) {
+    created() {
+      window.addEventListener('load', (e) => {
+        console.log('DOMLoaded FIRED!')
+        if (navigator.standalone || window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches || window.matchMedia('(display-mode: minimal-ui)').matches) {
            console.log('APP IS IN STANDALONE MODE')
-          }
-          else{
-            console.log("APPLICATION IS NOT INSTALLED")
-            this.applicationInstalled = false
-          }
+           this.$router.push({ name: 'documents' })
+        }
+        else{
+          console.log("APPLICATION IS NOT INSTALLED")
+          this.applicationInstalled = false
+        }
       });
+    },
+    beforeMount() {
       window.addEventListener('beforeinstallprompt', (e) => {
         console.log('BEFORE INSTALL FIRED')
         this.applicationInstalled = false
