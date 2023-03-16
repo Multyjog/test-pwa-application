@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Layout from './views/Layout'
+import Welcome from './views/WelcomeScreen'
 import Documents from './views/Documents'
 
 Vue.use(Router)
@@ -10,17 +11,20 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
-      name: 'root',
+      path: '/documents',
       component: Layout,
-      redirect: '/documents',
       children: [
         {
-          path: 'documents',
           name: 'documents',
+          path: '/',
           component: Documents
         }
       ]
+    },
+    {
+      path: '/',
+      name: 'welcome',
+      component: Welcome,
     }
   ]
 })
