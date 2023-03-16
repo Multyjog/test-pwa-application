@@ -1,7 +1,7 @@
 <template>
     <div class="welcome-screen">
         <div v-if="!applicationInstalled && userAgent !== 'iphone'">
-            Добро пожаловать! Что бы установить приложение, пожалуйста, нажмите на кнопку ниже
+            Добро пожаловать! Для установки приложения, пожалуйста, нажмите на кнопку ниже
             <hr>
             <div>
               <button type="button" class="button" id="installPWA-button" @click="installPWA" ref="installPWAButton">Установить на телефон</button>
@@ -9,7 +9,7 @@
         </div>
 
         <div v-if="!applicationInstalled && userAgent === 'iphone'">
-          Добро пожаловать! Что бы установить приложение, пожалуйста следуйте инструкции ниже!
+          Добро пожаловать! Для установки приложения, пожалуйста следуйте инструкции ниже
             <hr>
             <div>
               <ul>
@@ -38,11 +38,20 @@ export default {
       userAgent: null,
     }),
     beforeMount() {
+      window.addEventListener('DOMContentLoaded', function(){
+         if (navigator.standalone || window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches || window.matchMedia('(display-mode: minimal-ui)').matches) {
+           console.log('APP IS IN STANDALONE MODE')
+          }
+          else{
+            console.log("APPLICATION IS NOT INSTALLED")
+            this.applicationInstalled = false
+          }
+      });
       window.addEventListener('beforeinstallprompt', (e) => {
+        console.log('BEFORE INSTALL FIRED')
         this.applicationInstalled = false
         e.preventDefault()
         this.installEvent = e
-        console.log('BEFORE INSTALL FIRED')
       })
       if(navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
         this.userAgent = 'iphone'
