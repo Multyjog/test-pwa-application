@@ -1,7 +1,7 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "a7ee7396155958c39b6b",
-    "url": "/test-pwa-application/css/app.75559073.css"
+    "revision": "f5835e6a6dddf95cadc5",
+    "url": "/test-pwa-application/css/app.5e57e5a1.css"
   },
   {
     "revision": "af756fa13554220e85d2f1ba73ad1cbc",
@@ -16,12 +16,20 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/test-pwa-application/data/files/document.doc"
   },
   {
-    "revision": "24272ffe9cdba2c8f389b983e7645ffc",
+    "revision": "cf1f552297b464068d5bb4884a2d96c7",
+    "url": "/test-pwa-application/img/firefox-instruction.cf1f5522.jpg"
+  },
+  {
+    "revision": "cf1f552297b464068d5bb4884a2d96c7",
+    "url": "/test-pwa-application/img/firefox-instruction.jpg"
+  },
+  {
+    "revision": "c95f0dd7835769df962dc844d5c11111",
     "url": "/test-pwa-application/index.html"
   },
   {
-    "revision": "a7ee7396155958c39b6b",
-    "url": "/test-pwa-application/js/app.dfa40bb2.js"
+    "revision": "f5835e6a6dddf95cadc5",
+    "url": "/test-pwa-application/js/app.4d35c9d5.js"
   },
   {
     "revision": "52e303d1c3bc912296cc",
