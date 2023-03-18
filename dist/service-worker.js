@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/test-pwa-application/precache-manifest.b4c5428e3b404de30e5ef6621df96d45.js"
+  "precache-manifest.195ab0fd6e0c311ba2e86ec3346da1e8.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "app_for_contract"});
