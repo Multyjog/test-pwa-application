@@ -5,6 +5,8 @@
             Добро пожаловать! Для установки приложения, пожалуйста, нажмите на кнопку ниже
             <hr>
             <button type="button" class="button" id="installPWA-button" :disabled="!promptFired" @click="installPWA" ref="installPWAButton">Установить на телефон</button>
+            <hr>
+            <button type="button" class="button" @click="$router.push({ name: 'documents' })">Продолжить в браузере</button>
           </div>
 
           <div v-if="userAgent === 'iphone'">
@@ -16,6 +18,8 @@
                 <li>Выберите пункт: "Добавить на экран 'домой'"</li>
               </ul>
             </div>
+            <hr>
+            <button type="button" class="button" @click="$router.push({ name: 'documents' })">Продолжить в браузере</button>
           </div>
 
           <div v-if="userAgent === 'firefox'">
@@ -29,6 +33,8 @@
               <hr>
               <img src="../../public/img/firefox-instruction.jpg" alt="">
             </div>
+            <hr>
+            <button type="button" class="button" @click="$router.push({ name: 'documents' })">Продолжить в браузере</button>
           </div>
 
           <div v-if="!userAgent"> 
@@ -40,6 +46,8 @@
                 <li>Зайдите на эту страницу снова и следуйте инструкции</li>
               </ul>
             </div>
+            <hr>
+            <button type="button" class="button" @click="$router.push({ name: 'documents' })">Продолжить в браузере</button>
           </div>
       </div>
     </div>
@@ -52,7 +60,6 @@ export default {
       installEvent: null,
       userAgent: null,
       promptFired: true,
-      loading: true,
     }),
     created() {
       if (navigator.standalone || window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches || window.matchMedia('(display-mode: minimal-ui)').matches) {
@@ -64,16 +71,19 @@ export default {
       }
 
       if(navigator.userAgent.match(/chrome|chromium|crios/i)){
+        // ЭТОТ ИВЕНТ ОТРАБАТЫВАЕТ ТОЛЬКО В БРАУЗЕРЕ CHROME
         console.log('CHROME')
-          // ЭТОТ ИВЕНТ ОТРАБАТЫВАЕТ ТОЛЬКО В БРАУЗЕРЕ CHROME
-        this.promptFired = false
         window.addEventListener('beforeinstallprompt', (e) => {
           console.log('beforeinstallprompt event fired')
           e.preventDefault()
           this.promptFired = true
           this.installEvent = e
         })
+        window.addEventListener('appinstalled', (e) => {
+          console.log(e)
+        })
         this.userAgent = 'chrome'
+        this.promptFired = false
       }
       if(navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
         console.log('IPHONE')
@@ -83,15 +93,10 @@ export default {
         console.log('FIREFOX')
         this.userAgent = 'firefox'
       }
-      this.getRelated()
-      this.loading = false
     },
     methods: {
-      async getRelated() {
-        const info = await window.navigator.getInstalledRelatedApps()
-        console.log('RELATED APPS:', info)
-      },
       async installPWA() {
+        // ТОЛЬКО ДЛЯ CHROME
         this.installEvent.prompt()
         let result = await this.installEvent.userChoice;
         if (result && result.outcome === 'accepted') {
