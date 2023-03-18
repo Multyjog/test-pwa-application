@@ -1,15 +1,14 @@
 <template>
-    <div class="welcome-screen">
-        <div v-if="!applicationInstalled && userAgent !== 'iphone'">
+    <div>
+      <div class="welcome-screen">
+          <div v-if="userAgent === 'chrome'">
             Добро пожаловать! Для установки приложения, пожалуйста, нажмите на кнопку ниже
             <hr>
-            <div>
-              <button type="button" class="button" id="installPWA-button" @click="installPWA" ref="installPWAButton">Установить на телефон</button>
-            </div>
-        </div>
+            <button type="button" class="button" id="installPWA-button" :disabled="!promptFired" @click="installPWA" ref="installPWAButton">Установить на телефон</button>
+          </div>
 
-        <div v-if="!applicationInstalled && userAgent === 'iphone'">
-          Добро пожаловать! Для установки приложения, пожалуйста следуйте инструкции ниже
+          <div v-if="userAgent === 'iphone'">
+            Добро пожаловать! Для установки приложения, пожалуйста следуйте инструкции ниже
             <hr>
             <div>
               <ul>
@@ -17,15 +16,32 @@
                 <li>Выберите пункт: "Добавить на экран 'домой'"</li>
               </ul>
             </div>
-        </div>
+          </div>
 
-        <div v-else-if="applicationInstalled">
-            Добро пожаловать в ваше мобильное приложение. Нажмите кнопку ниже, что бы перейти к документам
+          <div v-if="userAgent === 'firefox'">
+            Добро пожаловать! Для установки приложения, пожалуйста следуйте инструкции ниже
             <hr>
             <div>
-              <button type="button" class="button" @click="$router.push({ name: 'documents' })">Перейти к документам</button>
+              <ul>
+                <li>На вашем смартфоне, откройте меню браузера Firefox</li>
+                <li>Выберите пункт: "Установить'"</li>
+              </ul>
+              <hr>
+              <img src="../../public/img/firefox-instruction.jpg" alt="">
             </div>
-        </div>
+          </div>
+
+          <div v-if="!userAgent"> 
+            Добро пожаловать! Для использования нашего мобильного приложение, пожалуйста: 
+            <hr>
+            <div>
+              <ul>
+                <li>Установите браузер <a href="https://www.google.com/chrome/">Google Chrome</a></li>
+                <li>Зайдите на эту страницу снова и следуйте инструкции</li>
+              </ul>
+            </div>
+          </div>
+      </div>
     </div>
 </template>
 
@@ -34,43 +50,53 @@ export default {
     name: 'WelcomeScreen',
     data: () => ({
       installEvent: null,
-      applicationInstalled: true,
       userAgent: null,
+      promptFired: true,
+      loading: true,
     }),
     created() {
-      // window.addEventListener('load', (e) => {
-        // console.log(window.matchMedia('(display-mode: standalone)').matches)
-        if (navigator.standalone || window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches || window.matchMedia('(display-mode: minimal-ui)').matches) {
-           console.log('APP IS IN STANDALONE MODE')
-           this.$router.push({ name: 'documents' })
-        }
-        else{
-          console.log("APPLICATION IS NOT INSTALLED")
-          this.applicationInstalled = false
-        }
-      // });
-    },
-    beforeMount() {
-      window.addEventListener('beforeinstallprompt', (e) => {
-        console.log('BEFORE INSTALL FIRED')
-        this.applicationInstalled = false
-        e.preventDefault()
-        this.installEvent = e
-      })
+      if (navigator.standalone || window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches || window.matchMedia('(display-mode: minimal-ui)').matches) {
+        console.log('APP IS IN STANDALONE MODE')
+        this.$router.push({ name: 'documents' })
+      }
+      else{
+        console.log("APPLICATION IS IN WEB")
+      }
+
+      if(navigator.userAgent.match(/chrome|chromium|crios/i)){
+        console.log('CHROME')
+          // ЭТОТ ИВЕНТ ОТРАБАТЫВАЕТ ТОЛЬКО В БРАУЗЕРЕ CHROME
+        this.promptFired = false
+        window.addEventListener('beforeinstallprompt', (e) => {
+          console.log('beforeinstallprompt event fired')
+          e.preventDefault()
+          this.promptFired = true
+          this.installEvent = e
+        })
+        this.userAgent = 'chrome'
+      }
       if(navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+        console.log('IPHONE')
         this.userAgent = 'iphone'
       }
-      console.log(this.userAgent)
+      if(navigator.userAgent.match(/firefox/i)) {
+        console.log('FIREFOX')
+        this.userAgent = 'firefox'
+      }
+      this.getRelated()
+      this.loading = false
     },
     methods: {
+      async getRelated() {
+        const info = await window.navigator.getInstalledRelatedApps()
+        console.log('RELATED APPS:', info)
+      },
       async installPWA() {
-          this.installEvent.prompt()
-          let result = await this.installEvent.userChoice;
-          console.log('RESULT:', result)
-          if (result && result.outcome === 'accepted') {
-             console.log('APP INSTALLED FROM FUNCTION')
-             this.$router.push({name: 'documents'})
-          }
+        this.installEvent.prompt()
+        let result = await this.installEvent.userChoice;
+        if (result && result.outcome === 'accepted') {
+           this.$router.push({name: 'documents'})
+        }
       },
     }
 }
@@ -81,5 +107,9 @@ export default {
   margin: 30px;
   font-weight: bold;
   text-align: center;
+}
+img {
+  width: 200px;
+  height: 400px;
 }
 </style>

@@ -1,7 +1,9 @@
 module.exports = {
-  // publicPath: "./",
-  publicPath: process.env.NODE_ENV === "production" ? "/test-pwa-application" : "./",
-
+  publicPath: "./",
+  // publicPath: process.env.NODE_ENV === "production" ? "/test-pwa-application" : "./",
+  pwa: {
+    manifesPath: ''
+  },
 
   chainWebpack: config => {
     // Добавляем поддержку coffee script с обработчкой через babel
