@@ -62,6 +62,7 @@ export default {
       promptFired: true,
     }),
     created() {
+      // Проверка, запущено ли приложение в режиме PWA. У нас не используется, можно встроить доп логику
       if (navigator.standalone || window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches || window.matchMedia('(display-mode: minimal-ui)').matches) {
         console.log('APP IS IN STANDALONE MODE')
         this.$router.push({ name: 'documents' })
@@ -69,21 +70,22 @@ export default {
       else{
         console.log("APPLICATION IS IN WEB")
       }
-
+      const isPWAInstalled = localStorage.getItem('PWAInstalled') // Храним данные о установке в локалсторейдж
       if(navigator.userAgent.match(/chrome|chromium|crios/i)){
         // ЭТОТ ИВЕНТ ОТРАБАТЫВАЕТ ТОЛЬКО В БРАУЗЕРЕ CHROME
-        console.log('CHROME')
+        if(isPWAInstalled) this.$router.push({ name: 'documents' }) //Если утановлено, редирект на документы
+
         window.addEventListener('beforeinstallprompt', (e) => {
           console.log('beforeinstallprompt event fired')
           e.preventDefault()
-          this.promptFired = true
+          this.promptFired = true // Делаем кнопку установки активной
           this.installEvent = e
         })
         window.addEventListener('appinstalled', (e) => {
-          console.log(e)
+          // место для доп логики после установки приложения
         })
         this.userAgent = 'chrome'
-        this.promptFired = false
+        this.promptFired = false // Выключаем кнопку от греха подальше
       }
       if(navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
         console.log('IPHONE')
@@ -101,6 +103,7 @@ export default {
         let result = await this.installEvent.userChoice;
         if (result && result.outcome === 'accepted') {
            this.$router.push({name: 'documents'})
+           localStorage.setItem('PWAInstalled', true)
         }
       },
     }
