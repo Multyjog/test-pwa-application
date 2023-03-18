@@ -2,7 +2,7 @@ module.exports = {
   publicPath: "./",
   // publicPath: process.env.NODE_ENV === "production" ? "/test-pwa-application" : "./",
   pwa: {
-    manifesPath: ''
+    manifestPath: 'https://raw.githubusercontent.com/Multyjog/test-pwa-application/main/manifest.json'
   },
 
   chainWebpack: config => {
